@@ -38,8 +38,9 @@ const SignupService = async (data) => {
             otp,
             isVerified: false // Default to false
         });
+        const email = data.email
 
-        return { status: true, message: 'Signup successful. Please verify your OTP.'};
+        return { status: true, message: 'Signup successful. Please verify your OTP.', email };
     } catch (error) {
         throw error;
     }
