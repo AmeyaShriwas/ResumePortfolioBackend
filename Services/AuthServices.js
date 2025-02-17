@@ -94,10 +94,40 @@ const VerifyOTPService = async (data) => {
     }
 };
 
+const DeleteUserServices = async (data) => {
+    const { email } = data;
+    
+    try {
+      // Find the user by email
+      const findEmail = await User.findOne({ email: email });
+      
+      // If no user is found, throw an error
+      if (!findEmail) {
+        throw new Error('User not found');
+      }
+  
+      // Check if the user's email is verified
+      const validEmail = findEmail.isVerified;
+      
+      // If the email is not verified, delete the user
+      if (!validEmail) {
+        await User.deleteOne({ email: email });
+        console.log('User deleted successfully');
+      } else {
+        console.log('Email is verified, user cannot be deleted');
+      }
+    } catch (error) {
+      console.error('Error occurred during user deletion:', error);
+      throw error;
+    }
+  };
+  
+
 module.exports = {
     LoginService,
     SignupService,
     ForgotPasswordService,
     UpdatePasswordService,
-    VerifyOTPService
+    VerifyOTPService,
+    DeleteUserServices
 };

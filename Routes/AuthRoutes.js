@@ -9,5 +9,7 @@ Router.post('/signup', AuthController.SignupController);
 Router.post('/forgot-password', AuthController.ForgotPasswordController);
 Router.post('/update-password', AuthController.UpdatePasswordController);
 Router.post('/verify-otp', AuthController.VerifyOTPController);
+Router.delete('/deleteUser', AuthController.DeleteUserController);
+
 
 module.exports = Router;
