@@ -1,6 +1,7 @@
 const User = require('./../Model/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sendOtpToMail = require('./../NodeMailer/Nodemailer')
 
 const LoginService = async (data) => {
     try {
@@ -30,7 +31,8 @@ const SignupService = async (data) => {
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
         const otp = Math.floor(100000 + Math.random() * 900000);
-
+        const res = await sendOtpToMail(data.email, otp)
+        console.log('res', res)
         const newUser = await User.create({
             name: data.name,
             email: data.email,
@@ -38,6 +40,7 @@ const SignupService = async (data) => {
             otp,
             isVerified: false // Default to false
         });
+      
         const email = data.email
 
         return { status: true, message: 'Signup successful. Please verify your OTP.', email };
