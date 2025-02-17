@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const authRoutes = require('./Routes/AuthRoutes');
+const planRoutes = require('./Routes/PlanRoutes')
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 
 // Use authRoutes with API prefix
 app.use('/auth', authRoutes);
+app.use('/plan', planRoutes)
 
 app.listen(process.env.PORT, () => {
     console.log(`✅ Server running on port ${process.env.PORT}`);

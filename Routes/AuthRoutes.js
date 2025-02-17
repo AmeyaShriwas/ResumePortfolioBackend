@@ -12,4 +12,5 @@ Router.post('/verify-otp', AuthController.VerifyOTPController);
 Router.delete('/deleteUser', AuthController.DeleteUserController);
 
 
+
 module.exports = Router;
