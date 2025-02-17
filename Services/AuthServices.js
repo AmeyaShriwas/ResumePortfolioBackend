@@ -16,7 +16,7 @@ const LoginService = async (data) => {
         const name = user.name
         const email = user.email
 
-        return { message: 'Login successful', token, name, email };
+        return { status: true, message: 'Login successful', token, name, email };
     } catch (error) {
         throw error;
     }
@@ -39,7 +39,7 @@ const SignupService = async (data) => {
             isVerified: false // Default to false
         });
 
-        return { message: 'Signup successful. Please verify your OTP.'};
+        return { status: true, message: 'Signup successful. Please verify your OTP.'};
     } catch (error) {
         throw error;
     }
@@ -54,7 +54,7 @@ const ForgotPasswordService = async (data) => {
         user.otp = otp;
         await user.save();
 
-        return { message: 'OTP sent to email' };
+        return { status: true, message: 'OTP sent to email' };
     } catch (error) {
         throw error;
     }
@@ -69,7 +69,7 @@ const UpdatePasswordService = async (data) => {
         user.password = hashedPassword;
         await user.save();
 
-        return { message: 'Password updated successfully' };
+        return { status: true, message: 'Password updated successfully' };
     } catch (error) {
         throw error;
     }
@@ -84,7 +84,7 @@ const VerifyOTPService = async (data) => {
         user.isVerified = true; // ✅ Mark user as verified
         await user.save();
 
-        return { message: 'OTP verified successfully. You can now log in.' };
+        return { status: true, message: 'OTP verified successfully. You can now log in.' };
     } catch (error) {
         throw error;
     }
