@@ -6,9 +6,9 @@ require('dotenv').config();
 const authRoutes = require('./Routes/AuthRoutes');
 const planRoutes = require('./Routes/PlanRoutes');
 
-// ✅ Correct way to allow CORS for all origins
+// ✅ Allow frontend to access API
 app.use(cors({
-    origin: '*',
+    origin: ['https://web.resumebuilder.ameyashriwas.in'], // Add your frontend URL here
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
