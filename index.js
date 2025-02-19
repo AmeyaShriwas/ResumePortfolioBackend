@@ -6,8 +6,13 @@ require('dotenv').config();
 const authRoutes = require('./Routes/AuthRoutes');
 const planRoutes = require('./Routes/PlanRoutes')
 
-app.use(cors());
-app.use(express.json());
+// ✅ Allow CORS from your frontend
+app.use(cors({
+    origin: 'https://web.resumebuilder.ameyashriwas.in',  // Allow your frontend domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true // Allow cookies if needed
+}));app.use(express.json());
 
 mongoose.connect(process.env.MONGOURI)
     .then(() => console.log('✅ Connected to MongoDB'))
