@@ -6,14 +6,8 @@ require('dotenv').config();
 const authRoutes = require('./Routes/AuthRoutes');
 const planRoutes = require('./Routes/PlanRoutes')
 
-app.use(cors({
-    origin: "https://web.resumebuilder.ameyashriwas.in", // Allow only your frontend domain
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
-    credentials: true // If using cookies/authentication
-  }));
+app.use(cors());
 app.use(express.json());
-app.options("*", cors()); // Handle preflight requests globally
 
 mongoose.connect(process.env.MONGOURI)
     .then(() => console.log('✅ Connected to MongoDB'))
