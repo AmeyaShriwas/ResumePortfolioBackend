@@ -72,7 +72,7 @@ const UpdatePasswordService = async (data) => {
         const hashedPassword = await bcrypt.hash(data.newPassword, 10);
         user.password = hashedPassword;
         await user.save();
-
+//
         return { status: true, message: 'Password updated successfully' };
     } catch (error) {
         throw error;
