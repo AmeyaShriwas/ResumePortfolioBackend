@@ -12,7 +12,8 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true // Allow cookies if needed
-}));app.use(express.json());
+}));
+app.use(express.json());
 
 mongoose.connect(process.env.MONGOURI)
     .then(() => console.log('✅ Connected to MongoDB'))
