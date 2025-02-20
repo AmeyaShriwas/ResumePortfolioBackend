@@ -7,7 +7,7 @@ const authRoutes = require('./Routes/AuthRoutes');
 const planRoutes = require('./Routes/PlanRoutes')
 const paymentRoutes = require('./Routes/PaymentRoutes')
 
-app.use(cors());
+app.use(cors({}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGOURI)
