@@ -11,44 +11,52 @@ const razorpay = new Razorpay({
 });
 
 const createOrder = async (amount) => {
-  try {
-    const options = {
-      amount: amount * 100, // Convert amount to paisa
-      currency: "INR",
-      receipt: `receipt_${Date.now()}`,
-    };
-
-    const order = await razorpay.orders.create(options);
-    return { success: true, order };
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
-
-const verifyPayment = async ({ razorpay_order_id, razorpay_payment_id, razorpay_signature, amount }) => {
-  try {
-    const generatedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-      .digest("hex");
-
-    if (generatedSignature !== razorpay_signature) {
-      return { success: false, message: "Payment verification failed" };
+    try {
+      if (isNaN(amount) || amount <= 0) {
+        throw new Error("Invalid amount");
+      }
+  
+      const options = {
+        amount: Math.round(amount * 100), // Convert amount to paisa safely
+        currency: "INR",
+        receipt: `receipt_${Date.now()}`,
+      };
+  
+      const order = await razorpay.orders.create(options);
+      return { success: true, order };
+    } catch (error) {
+      return { success: false, message: error.message };
     }
-
-    const payment = new Payment({
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      amount,
-      status: "Paid",
-    });
-
-    await payment.save();
-    return { success: true, message: "Payment verified successfully" };
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
-
+  };
+  
+  const verifyPayment = async ({ razorpay_order_id, razorpay_payment_id, razorpay_signature, amount }) => {
+    try {
+      if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+        return { success: false, message: "Missing payment details" };
+      }
+  
+      const generatedSignature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+        .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+        .digest("hex");
+  
+      if (generatedSignature !== razorpay_signature) {
+        return { success: false, message: "Payment verification failed" };
+      }
+  
+      const payment = new Payment({
+        razorpay_order_id,
+        razorpay_payment_id,
+        razorpay_signature,
+        amount,
+        status: "Paid",
+      });
+  
+      await payment.save();
+      return { success: true, message: "Payment verified successfully" };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  };
+  
 module.exports = { createOrder, verifyPayment };
