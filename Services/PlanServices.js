@@ -10,10 +10,10 @@ const getUserPlans = async (userId) => {
   return await Plan.find({ userId });
 };
 
-// Get a single plan by ID
 const getPlanById = async (planId) => {
-  return await Plan.findOne({userId: planId});
+  return await Plan.findOne({ userId: planId });
 };
+
 
 // Update a plan
 const updatePlan = async (planId, data) => {
