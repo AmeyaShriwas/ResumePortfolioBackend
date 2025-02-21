@@ -1,4 +1,4 @@
-const Plan  = require('./../Model/PlanModel')
+const Plan  = require('../Model/Plan')
 
 // Create Plan
 const createPlan = async (req, res) => {
