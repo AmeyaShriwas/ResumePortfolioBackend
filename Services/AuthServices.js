@@ -17,9 +17,10 @@ const LoginService = async (data) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         const name = user.name
         const email = user.email
+        const id = user._id
         const findPlan = await Plan.findOne({ userId: user._id });
         if (!findPlan) {
-            return { status: true, message: 'Login successful', token, name, email };
+            return { status: true, message: 'Login successful', token, name, email, id };
         }
         const plan = {
            planName: findPlan.planName,
