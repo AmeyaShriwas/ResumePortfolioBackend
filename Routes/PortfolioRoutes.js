@@ -2,10 +2,9 @@ const express = require("express");
 const router = express.Router();
 const upload = require("./../Middleware/Multer");
 const PortfolioController = require("./../Controller/PortfolioController");
-const AuthMiddleware = require('./../Middleware/Auth')
 
 router.post(
-    "/add", AuthMiddleware,
+    "/add", 
     upload.fields([
       { name: "profilePhoto", maxCount: 1 },
       { name: "resume", maxCount: 1 },
