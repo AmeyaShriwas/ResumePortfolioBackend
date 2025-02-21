@@ -1,30 +1,40 @@
 const PortfolioService = require("./../Services/PortfolioServices");
 
 exports.addPortfolio = async (req, res) => {
-  try {
-    const portfolioData = req.body;
-    
-    // Add uploaded file paths
-    if (req.files) {
-      if (req.files.profilePhoto) {
-        portfolioData.profilePhoto = req.files.profilePhoto[0].path;
-      }
-      if (req.files.resume) {
-        portfolioData.resume = req.files.resume[0].path;
-      }
-      if (req.files["projects[].projectImage"]) {
-        portfolioData.projects.forEach((project, index) => {
-          project.projectImage = req.files["projects[].projectImage"][index]?.path || null;
-        });
-      }
+    try {
+      const { body, files } = req;
+      
+      // Extract personal data
+      const personalData = {
+        name: body.name,
+        bio: body.bio,
+        linkedin: body.linkedin,
+        skills: body.skills,
+        email: body.email,
+        phone: body.phone,
+        profilePhoto: files.profilePhoto ? files.profilePhoto[0].path : null,
+        resume: files.resume ? files.resume[0].path : null,
+      };
+  
+      // Extract projects
+      const projects = JSON.parse(body.projects || "[]"); // Ensure projects are parsed
+      projects.forEach((project, index) => {
+        if (files.projectImages && files.projectImages[index]) {
+          project.projectImage = files.projectImages[index].path;
+        }
+      });
+  
+      // Save to Database (Example)
+      const portfolio = new PortfolioModel({ personalData, projects });
+      await portfolio.save();
+  
+      res.status(201).json({ status: true, message: "Portfolio added successfully" });
+    } catch (error) {
+      console.error("Error adding portfolio:", error);
+      res.status(500).json({ status: false, message: "Server error" });
     }
-
-    const newPortfolio = await PortfolioService.createPortfolio(portfolioData);
-    res.status(201).json({ success: true, message: "Portfolio added successfully", data: newPortfolio });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+  };
+  
 
 exports.getAllPortfolios = async (req, res) => {
   try {
