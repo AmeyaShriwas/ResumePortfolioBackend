@@ -6,6 +6,13 @@ const authRoutes = require('./Routes/AuthRoutes');
 const planRoutes = require('./Routes/PlanRoutes')
 const paymentRoutes = require('./Routes/PaymentRoutes')
 const portfolioRoutes = require('./Routes/PortfolioRoutes')
+const fs = require("fs");
+const uploadDir = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
 
 // app.use(cors());
 app.use(express.json());
