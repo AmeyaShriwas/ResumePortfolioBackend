@@ -8,7 +8,7 @@ const planRoutes = require('./Routes/PlanRoutes')
 const paymentRoutes = require('./Routes/PaymentRoutes')
 const portfolioRoutes = require('./Routes/PortfolioRoutes')
 
-app.use(cors({origin: '*'}));
+app.use(cors({ origin: "https://web.resumebuilder.ameyashriwas.in" }));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGOURI)
