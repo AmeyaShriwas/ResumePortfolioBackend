@@ -10,6 +10,11 @@ const ProjectSchema = new mongoose.Schema({
 });
 
 const PortfolioSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
   name: { type: String, required: true },
   profilePhoto: { type: String }, // Store the image URL or file path
   bio: { type: String },
