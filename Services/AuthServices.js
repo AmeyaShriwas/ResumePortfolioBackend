@@ -2,6 +2,7 @@ const User = require('./../Model/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sendOtpToMail = require('./../NodeMailer/Nodemailer')
+const Plan  = require('./../Model/Plan')
 
 const LoginService = async (data) => {
     try {
@@ -16,8 +17,12 @@ const LoginService = async (data) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         const name = user.name
         const email = user.email
-
-        return { status: true, message: 'Login successful', token, name, email };
+        const findPlan = await Plan.findById(user._id)
+        if(!findPlan){
+            return { status: true, message: 'Login successful', token, name, email };
+        }
+        return { status: true, message: 'Login successful', token, name, email, findPlan };
+       
     } catch (error) {
         throw error;
     }
