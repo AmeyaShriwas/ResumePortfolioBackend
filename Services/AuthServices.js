@@ -29,7 +29,7 @@ const LoginService = async (data) => {
            endDate: findPlan.endDate
         }
     
-        return { status: true, message: 'Login successful', token, name, email, plan };
+        return { status: true, message: 'Login successful', token, name, email, plan, id };
        
     } catch (error) {
         throw error;
