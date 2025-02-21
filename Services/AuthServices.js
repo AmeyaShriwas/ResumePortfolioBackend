@@ -21,8 +21,14 @@ const LoginService = async (data) => {
         if (!findPlan) {
             return { status: true, message: 'Login successful', token, name, email };
         }
-        
-        return { status: true, message: 'Login successful', token, name, email, findPlan };
+        const plan = {
+           planName: findPlan.planName,
+           planStatus: findPlan.planStatus,
+           startDate: findPlan.startDate,
+           endDate: findPlan.endDate
+        }
+    
+        return { status: true, message: 'Login successful', token, name, email, plan };
        
     } catch (error) {
         throw error;
