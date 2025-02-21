@@ -1,5 +1,9 @@
 const PortfolioService = require("./../Services/PortfolioServices");
 const Portfolio = require('./../Model/Portfolio')
+const jwt = require("jsonwebtoken");
+const User = require("./../Model/UserModel");
+
+
 
 exports.addPortfolio = async (req, res) => {
     try {
@@ -9,7 +13,10 @@ exports.addPortfolio = async (req, res) => {
       const { name, bio, linkedin, email, phone, skills, userId } = req.body;
       const profilePhoto = req.files?.profilePhoto?.[0]?.path || null;
       const resume = req.files?.resume?.[0]?.path || null;
-  
+        const decoded = jwt.verify(userId, process.env.JWT_SECRET);
+        const user = await User.findById(decoded.id).select("-password");
+        const id = user?._id; // Ensure you get the ObjectId
+          
       // Parse projects JSON safely
       let projects = [];
       try {
@@ -28,7 +35,7 @@ exports.addPortfolio = async (req, res) => {
       }
   
       const newPortfolio = {
-        userId,
+      id,
         name,
         bio,
         linkedin,

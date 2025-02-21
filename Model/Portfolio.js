@@ -10,7 +10,7 @@ const ProjectSchema = new mongoose.Schema({
 });
 
 const PortfolioSchema = new mongoose.Schema({
-    userId: {
+    id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
