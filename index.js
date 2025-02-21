@@ -6,6 +6,7 @@ const authRoutes = require('./Routes/AuthRoutes');
 const planRoutes = require('./Routes/PlanRoutes')
 const paymentRoutes = require('./Routes/PaymentRoutes')
 const portfolioRoutes = require('./Routes/PortfolioRoutes')
+const path = require('path')
 const fs = require("fs");
 const uploadDir = path.join(__dirname, "uploads");
 
