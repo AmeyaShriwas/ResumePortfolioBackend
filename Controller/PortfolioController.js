@@ -1,40 +1,49 @@
 const PortfolioService = require("./../Services/PortfolioServices");
+const Portfolio = require('./../Model/Portfolio')
 
 exports.addPortfolio = async (req, res) => {
     try {
-      const { body, files } = req;
-      console.log('body', body)
-      console.log('file', files)
-      // Extract personal data
-      const personalData = {
-        name: body.name,
-        bio: body.bio,
-        linkedin: body.linkedin,
-        skills: body.skills,
-        email: body.email,
-        phone: body.phone,
-        profilePhoto: files.profilePhoto ? files.profilePhoto[0].path : null,
-        resume: files.resume ? files.resume[0].path : null,
+      console.log("Files Uploaded:", req.files);
+      console.log("Form Data:", req.body);
+  
+      const { name, bio, linkedin, email, phone, skills } = req.body;
+      const profilePhoto = req.files?.profilePhoto?.[0]?.path || null;
+      const resume = req.files?.resume?.[0]?.path || null;
+      
+      // Parse projects JSON
+      const projects = JSON.parse(req.body.projects || "[]");
+  
+      // Add images to project details
+      if (req.files.projectImages) {
+        projects.forEach((project, index) => {
+          project.projectImage = req.files.projectImages[index]?.path || null;
+        });
+      }
+  
+      const newPortfolio = {
+        name,
+        bio,
+        linkedin,
+        email,
+        phone,
+        skills,
+        profilePhoto,
+        resume,
+        projects
       };
   
-      // Extract projects
-      const projects = JSON.parse(body.projects || "[]"); // Ensure projects are parsed
-      projects.forEach((project, index) => {
-        if (files.projectImages && files.projectImages[index]) {
-          project.projectImage = files.projectImages[index].path;
-        }
-      });
+      console.log("Final Portfolio Data:", newPortfolio);
+      await Portfolio.create(newPortfolio)
   
-      // Save to Database (Example)
-      const portfolio = new PortfolioModel({ personalData, projects });
-      await portfolio.save();
-  
-      res.status(201).json({ status: true, message: "Portfolio added successfully" });
+      // Save newPortfolio to database...
+      
+      res.status(201).json({ status: true, message: "Portfolio added successfully", data: newPortfolio });
     } catch (error) {
-      console.error("Error adding portfolio:", error);
+      console.error(error);
       res.status(500).json({ status: false, message: "Server error" });
     }
   };
+  
   
 
 exports.getAllPortfolios = async (req, res) => {
