@@ -9,5 +9,5 @@ exports.getAllPortfolios = async () => {
 };
 
 exports.getPortfolioById = async (id) => {
-  return await Portfolio.findById(id);
+  return await Portfolio.findOne({id: id});
 };
