@@ -3,7 +3,8 @@ const PortfolioService = require("./../Services/PortfolioServices");
 exports.addPortfolio = async (req, res) => {
     try {
       const { body, files } = req;
-      
+      console.log('body', body)
+      console.log('file', files)
       // Extract personal data
       const personalData = {
         name: body.name,
