@@ -1,4 +1,4 @@
-const Portfolio = require("../models/PortfolioModel");
+const Portfolio = require("./../Model/Portfolio");
 
 exports.createPortfolio = async (data) => {
   return await Portfolio.create(data);
