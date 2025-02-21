@@ -8,7 +8,7 @@ const planRoutes = require('./Routes/PlanRoutes')
 const paymentRoutes = require('./Routes/PaymentRoutes')
 const portfolioRoutes = require('./Routes/PortfolioRoutes')
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 mongoose.connect(process.env.MONGOURI)
