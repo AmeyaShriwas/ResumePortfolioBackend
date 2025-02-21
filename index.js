@@ -17,6 +17,8 @@ if (!fs.existsSync(uploadDir)) {
 
 // app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 mongoose.connect(process.env.MONGOURI)
     .then(() => console.log('✅ Connected to MongoDB'))
