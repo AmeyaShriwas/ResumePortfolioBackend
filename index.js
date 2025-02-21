@@ -6,6 +6,7 @@ require('dotenv').config();
 const authRoutes = require('./Routes/AuthRoutes');
 const planRoutes = require('./Routes/PlanRoutes')
 const paymentRoutes = require('./Routes/PaymentRoutes')
+const portfolioRoutes = require('./Routes/PortfolioRoutes')
 
 app.use(cors({origin: '*'}));
 app.use(express.json());
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/plan', planRoutes)
 app.use('/payment', paymentRoutes)
+app.use('/portfolio', portfolioRoutes)
 
 app.listen(process.env.PORT, () => {
     console.log(`✅ Server running on port ${process.env.PORT}`);
