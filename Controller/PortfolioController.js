@@ -59,18 +59,20 @@ exports.addPortfolio = async (req, res) => {
   };
   
   
-  exports.updatePortfolio = async (req, res) => {
+  exports.updatePortfolioPhoto = async (req, res) => {
     try {
         const userId = req.params.id;
         const formData = req.body;
 
         // Handling file uploads
-        const profilePhoto = req.files["profilePhoto"] ? req.files["profilePhoto"][0].path : null;
-        const resume = req.files["resume"] ? req.files["resume"][0].path : null;
-        const projectImages = req.files["projectImages"] ? req.files["projectImages"].map(file => file.path) : [];
-
+        const profilePhotoGet = req.files["profilePhoto"]
+        if(!profilePhotoGet){
+          return {status: false, message: 'Empty file'}
+        }
+        const profilePhoto = profilePhotoGet ? profilePhotoGet[0].path : null;
+       
         // Update portfolio using service function
-        const updatedPortfolio = await PortfolioService.updatePortfolio(userId, formData, profilePhoto, resume, projectImages);
+        const updatedPortfolio = await PortfolioService.updatePortfolio(userId,profilePhoto);
 
         return res.status(200).json({
             success: true,
