@@ -59,7 +59,32 @@ exports.addPortfolio = async (req, res) => {
   };
   
   
-  
+  exports.updatePortfolio = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const formData = req.body;
+
+        // Handling file uploads
+        const profilePhoto = req.files["profilePhoto"] ? req.files["profilePhoto"][0].path : null;
+        const resume = req.files["resume"] ? req.files["resume"][0].path : null;
+        const projectImages = req.files["projectImages"] ? req.files["projectImages"].map(file => file.path) : [];
+
+        // Update portfolio using service function
+        const updatedPortfolio = await PortfolioService.updatePortfolio(userId, formData, profilePhoto, resume, projectImages);
+
+        return res.status(200).json({
+            success: true,
+            message: "Portfolio updated successfully",
+            data: updatedPortfolio
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
 
 exports.getAllPortfolios = async (req, res) => {
   try {
