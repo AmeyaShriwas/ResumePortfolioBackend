@@ -89,7 +89,7 @@ exports.addPortfolio = async (req, res) => {
 exports.updatePersonalDetails = async (req, res) => {
   try {
     const userId = req.params.id;
-    const data = req.body;
+    const data = req;
 
     if (!data || Object.keys(data).length === 0) {
       return res.status(400).json({ success: false, message: "Empty data provided" });
