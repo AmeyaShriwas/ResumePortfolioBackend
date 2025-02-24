@@ -80,12 +80,36 @@ exports.addPortfolio = async (req, res) => {
         });
     } catch (error) {
         return res.status(500).json({
-            success: false,
+            status: false,
             message: error.message
         });
     }
 };
 
+exports.updatePersonalDetails = async(req, res)=> {
+  try{
+    const userId = req.params.id;
+    const data = req.body
+    if(!data){
+      return {status: false, message: 'Empty Data'}
+    }
+   
+    // Update portfolio using service function
+    const updatedPortfolio = await PortfolioService.updatePersonalDetails(userId,data);
+
+    return res.status(200).json({
+        success: true,
+        message: "Portfolio updated successfully",
+        data: updatedPortfolio
+    });
+  }
+  catch(error){
+    return res.status(500).json({
+      status: false,
+      message: error.message
+  });
+  }
+}
 
 exports.getAllPortfolios = async (req, res) => {
   try {
