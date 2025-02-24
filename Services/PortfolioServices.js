@@ -6,7 +6,7 @@ exports.createPortfolio = async (data) => {
 
 exports.updatePortfolio = async (userId,profilePhoto) => {
   try {
-      const portfolio = await Portfolio.findById(userId);
+      const portfolio = await Portfolio.find({id: userId});
       if (!portfolio) {
           throw new Error("Portfolio not found");
       }
