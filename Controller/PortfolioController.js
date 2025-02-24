@@ -62,7 +62,6 @@ exports.addPortfolio = async (req, res) => {
   exports.updatePortfolioPhoto = async (req, res) => {
     try {
         const userId = req.params.id;
-        const formData = req.body;
 
         // Handling file uploads
         const profilePhotoGet = req.files["profilePhoto"]

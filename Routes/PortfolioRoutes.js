@@ -13,7 +13,7 @@ router.post(
     PortfolioController.addPortfolio
   );
   
-  router.put("updateProfilePhoto/:id", upload.fields([
+  router.post("/updateProfilePhoto/:id", upload.fields([
     { name: "profilePhoto", maxCount: 1 }
 ]), PortfolioController.updatePortfolioPhoto);
 // Get All Portfolios
