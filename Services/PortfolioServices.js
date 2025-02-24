@@ -19,25 +19,26 @@ exports.updatePortfolio = async (userId, profilePhoto) => {
   }
 };
 
-exports.updatePersonalDetails = async(userId, data)=> {
-  try{
-    const portfolio = await Portfolio.findOne({ id: userId }); // Use findOne instead of find
-      if (!portfolio) {
-          throw new Error("Portfolio not found");
-      }
+exports.updatePersonalDetails = async (userId, data) => {
+  try {
+    const portfolio = await Portfolio.findOne({ _id: userId }); // Use _id if it's MongoDB default
+    if (!portfolio) {
+      throw new Error("Portfolio not found");
+    }
 
-        portfolio.name = data.name || portfolio.name,
-        portfolio.bio = data.bio || portfolio.bio
+    // Updating fields safely
+    portfolio.name = data.name || portfolio.name;
+    portfolio.bio = data.bio || portfolio.bio;
+    portfolio.linkedin = data.linkedin || portfolio.linkedin;
+    portfolio.email = data.email || portfolio.email;
 
-        portfolio.linkedin = data.linkedin || portfolio.linkedin
-        portfolio.email = data.email || portfolio.email
-        await portfolio.save();
-        return portfolio;
-
-  }catch(error){
-    throw new Error(error.message)
+    await portfolio.save();
+    return portfolio;
+  } catch (error) {
+    throw new Error(error.message);
   }
-}
+};
+
 
 exports.getAllPortfolios = async () => {
   return await Portfolio.find();
