@@ -86,30 +86,35 @@ exports.addPortfolio = async (req, res) => {
     }
 };
 
-exports.updatePersonalDetails = async(req, res)=> {
-  try{
+exports.updatePersonalDetails = async (req, res) => {
+  try {
     const userId = req.params.id;
-    const data = req.body
-    if(!data){
-      return {status: false, message: 'Empty Data'}
+    const data = req.body;
+
+    if (!data || Object.keys(data).length === 0) {
+      return res.status(400).json({ success: false, message: "Empty data provided" });
     }
-   
+
     // Update portfolio using service function
-    const updatedPortfolio = await PortfolioService.updatePersonalDetails(userId,data);
+    const updatedPortfolio = await PortfolioService.updatePersonalDetails(userId, data);
+
+    if (!updatedPortfolio) {
+      return res.status(404).json({ success: false, message: "Portfolio not found" });
+    }
 
     return res.status(200).json({
-        success: true,
-        message: "Portfolio updated successfully",
-        data: updatedPortfolio
+      success: true,
+      message: "Portfolio updated successfully",
+      data: updatedPortfolio
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message
     });
   }
-  catch(error){
-    return res.status(500).json({
-      status: false,
-      message: error.message
-  });
-  }
-}
+};
 
 exports.getAllPortfolios = async (req, res) => {
   try {
