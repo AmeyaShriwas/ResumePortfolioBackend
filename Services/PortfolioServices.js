@@ -4,9 +4,9 @@ exports.createPortfolio = async (data) => {
   return await Portfolio.create(data);
 };
 
-exports.updatePortfolio = async (userId,profilePhoto) => {
+exports.updatePortfolio = async (userId, profilePhoto) => {
   try {
-      const portfolio = await Portfolio.find({id: userId});
+      const portfolio = await Portfolio.findOne({ id: userId }); // Use findOne instead of find
       if (!portfolio) {
           throw new Error("Portfolio not found");
       }
@@ -18,6 +18,7 @@ exports.updatePortfolio = async (userId,profilePhoto) => {
       throw new Error(error.message);
   }
 };
+
 
 exports.getAllPortfolios = async () => {
   return await Portfolio.find();
