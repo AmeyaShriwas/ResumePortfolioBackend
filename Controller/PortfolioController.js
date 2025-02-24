@@ -89,7 +89,7 @@ exports.addPortfolio = async (req, res) => {
 exports.updatePersonalDetails = async (req, res) => {
   try {
     const userId = req.params.id;
-    const data = req;
+    const data = req.body;
     console.log('data', data)
 
     if (!data || Object.keys(data).length === 0) {
