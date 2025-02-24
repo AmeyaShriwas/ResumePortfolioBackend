@@ -21,7 +21,7 @@ exports.updatePortfolio = async (userId, profilePhoto) => {
 
 exports.updatePersonalDetails = async (userId, data) => {
   try {
-    const portfolio = await Portfolio.findOne({ _id: userId }); // Use _id if it's MongoDB default
+    const portfolio = await Portfolio.findOne({ id: userId }); // Use _id if it's MongoDB default
     if (!portfolio) {
       throw new Error("Portfolio not found");
     }
