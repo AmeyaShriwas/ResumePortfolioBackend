@@ -17,7 +17,7 @@ router.post(
     { name: "profilePhoto", maxCount: 1 }
 ]), PortfolioController.updatePortfolioPhoto);
 
-router.post("/updatePersonalDetails/:id", PortfolioController.updatePersonalDetails);
+router.post("/updatePersonalDetails/:id", upload.none(), PortfolioController.updatePersonalDetails);
 // Get All Portfolios
 router.get("/all", PortfolioController.getAllPortfolios);
 
