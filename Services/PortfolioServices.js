@@ -21,6 +21,7 @@ exports.updatePortfolio = async (userId, profilePhoto) => {
 
 exports.updateProjectsDetails = async (userId, index, projectImage, data) => {
   try {
+   
     const portfolio = await Portfolio.findOne({ id: userId });
     if (!portfolio) {
       throw new Error("Portfolio not found");

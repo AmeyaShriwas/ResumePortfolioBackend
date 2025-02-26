@@ -133,7 +133,14 @@ exports.updatePersonalDetails = async (req, res) => {
 
 exports.updateProject = async (req, res) => {
   try {
-    const userId = req.userId;
+    const userId = req.params.id;
+    const id = req.userId
+    if(userId !== id){
+      return res.status(401).json({
+        status: false,
+        message: 'Invalid user'
+    });
+    }
     const data = req.body;
     const index = data.index; // Project index
 
