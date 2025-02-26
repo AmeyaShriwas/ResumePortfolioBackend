@@ -62,6 +62,13 @@ exports.addPortfolio = async (req, res) => {
   exports.updatePortfolioPhoto = async (req, res) => {
     try {
         const userId = req.params.id;
+        const id = req.userId
+        if(userId !== id){
+          return res.status(401).json({
+            status: false,
+            message: 'Invalid user'
+        });
+        }
 
         // Handling file uploads
         const profilePhotoGet = req.files["profilePhoto"]
