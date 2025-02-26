@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const upload = require("./../Middleware/Multer");
 const PortfolioController = require("./../Controller/PortfolioController");
+const AuthMiddleware = require('./../Middleware/Auth')
 
 router.post(
     "/add", 
@@ -13,11 +14,11 @@ router.post(
     PortfolioController.addPortfolio
   );
   
-  router.post("/updateProfilePhoto/:id", upload.fields([
+  router.post("/updateProfilePhoto/:id", AuthMiddleware, upload.fields([
     { name: "profilePhoto", maxCount: 1 }
 ]), PortfolioController.updatePortfolioPhoto);
 
-router.post("/updatePersonalDetails/:id", PortfolioController.updatePersonalDetails);
+router.post("/updatePersonalDetails/:id", AuthMiddleware, PortfolioController.updatePersonalDetails);
 // Get All Portfolios
 router.get("/all", PortfolioController.getAllPortfolios);
 
