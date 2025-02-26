@@ -21,7 +21,7 @@ router.post(
 router.post("/updatePersonalDetails/:id", AuthMiddleware, PortfolioController.updatePersonalDetails);
 
 router.post(
-  "/updateProjects", AuthMiddleware,
+  "/updateProjects/:id", AuthMiddleware,
   upload.fields([
     { name: "projectImage", maxCount: 1 } // Allow multiple images
   ]),
