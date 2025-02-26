@@ -96,6 +96,13 @@ exports.addPortfolio = async (req, res) => {
 exports.updatePersonalDetails = async (req, res) => {
   try {
     const userId = req.params.id;
+    const id = req.userId
+    if(userId !== id){
+      return res.status(401).json({
+        status: false,
+        message: 'Invalid user'
+    });
+    }
     const data = req.body;
     console.log('data', data)
 
