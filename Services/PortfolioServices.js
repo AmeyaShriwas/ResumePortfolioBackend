@@ -19,6 +19,36 @@ exports.updatePortfolio = async (userId, profilePhoto) => {
   }
 };
 
+exports.updateProjectsDetails = async (userId, index, projectImage, data) => {
+  try {
+    const portfolio = await Portfolio.findOne({ id: userId });
+    if (!portfolio) {
+      throw new Error("Portfolio not found");
+    }
+
+    if (index >= portfolio.projects.length) {
+      throw new Error("Project index out of range");
+    }
+
+    let project = portfolio.projects[index];
+
+    // Update only the fields that are provided
+    project.projectName = data.projectName || project.projectName;
+    project.projectDescription = data.projectDescription || project.projectDescription;
+    project.projectImage = projectImage || project.projectImage;
+    project.techStack = data.techStack || project.techStack;
+    project.liveLink = data.liveLink || project.liveLink;
+    project.githubLink = data.githubLink || project.githubLink;
+
+    // Save updated portfolio
+    await portfolio.save();
+    return portfolio;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
 exports.updatePersonalDetails = async (userId, data) => {
   try {
     const portfolio = await Portfolio.findOne({ id: userId }); // Use _id if it's MongoDB default

@@ -19,6 +19,14 @@ router.post(
 ]), PortfolioController.updatePortfolioPhoto);
 
 router.post("/updatePersonalDetails/:id", AuthMiddleware, PortfolioController.updatePersonalDetails);
+
+router.post(
+  "/updateProjects", AuthMiddleware,
+  upload.fields([
+    { name: "projectImage", maxCount: 1 } // Allow multiple images
+  ]),
+  PortfolioController.updateProject
+);
 // Get All Portfolios
 router.get("/all", PortfolioController.getAllPortfolios);
 

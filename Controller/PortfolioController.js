@@ -124,6 +124,45 @@ exports.updatePersonalDetails = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+      error: error.message
+    });
+  }
+};
+
+exports.updateProject = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const data = req.body;
+    const index = data.index; // Project index
+
+    if (!data || Object.keys(data).length === 0) {
+      return res.status(400).json({ success: false, message: "Empty data provided" });
+    }
+
+    if (index === undefined || index < 0) {
+      return res.status(400).json({ success: false, message: "Invalid project index" });
+    }
+
+    // Handling file uploads
+    const projectImageGet = req.files["projectImage"];
+    const projectImage = projectImageGet ? projectImageGet[0].path : null;
+
+    // Update project
+    const updatedPortfolio = await PortfolioService.updateProjectsDetails(userId, index, projectImage, data);
+
+    if (!updatedPortfolio) {
+      return res.status(404).json({ success: false, message: "Portfolio not found" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Project updated successfully",
+      data: updatedPortfolio
+    });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
       message: "Internal Server Error",
       error: error.message
