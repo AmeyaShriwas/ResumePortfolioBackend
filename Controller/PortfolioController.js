@@ -146,7 +146,7 @@ exports.updateProject = async (req, res) => {
     }
 
     // Handling file uploads
-    const projectImageGet = req.files["projectImage"];
+    const projectImageGet = req?.files["projectImage"];
     const projectImage = projectImageGet ? projectImageGet[0].path : null;
 
     // Update project
@@ -164,7 +164,7 @@ exports.updateProject = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: "Internal Server Erroyr",
       error: error.message
     });
   }
