@@ -19,6 +19,10 @@ router.post(
 ]), PortfolioController.updatePortfolioPhoto);
 
 router.post("/updatePersonalDetails/:id", AuthMiddleware, PortfolioController.updatePersonalDetails);
+router.post("/updateBioDetails/:id", AuthMiddleware, PortfolioController.updateBioDetails);
+router.post("/updateSkillsDetails/:id", AuthMiddleware, PortfolioController.updateSkillsDetails);
+
+
 
 router.post(
   "/updateProjects/:id", AuthMiddleware,

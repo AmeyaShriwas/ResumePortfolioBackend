@@ -71,6 +71,40 @@ exports.updatePersonalDetails = async (userId, data) => {
 };
 
 
+
+exports.updateBioDetails = async (userId, data) => {
+  try {
+    const portfolio = await Portfolio.findOne({ id: userId }); // Use _id if it's MongoDB default
+    if (!portfolio) {
+      throw new Error("Portfolio not found");
+    }
+
+    // Updating fields safely
+    portfolio.bio = data.bio || portfolio.bio;
+    await portfolio.save();
+    return portfolio;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+exports.updateSkillsDetails = async (userId, data) => {
+  try {
+    const portfolio = await Portfolio.findOne({ id: userId }); // Use _id if it's MongoDB default
+    if (!portfolio) {
+      throw new Error("Portfolio not found");
+    }
+
+    // Updating fields safely
+    portfolio.skills = data.skills || portfolio.skills;
+    await portfolio.save();
+    return portfolio;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
 exports.getAllPortfolios = async () => {
   return await Portfolio.find();
 };
