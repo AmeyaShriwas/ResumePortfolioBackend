@@ -24,6 +24,13 @@ exports.addPortfolio = async (req, res) => {
       } catch (error) {
         return res.status(400).json({ status: false, message: "Invalid projects data format" });
       }
+
+      let experience = []
+      try {
+        experience = JSON.parse(req.body.training_Experience || "[]");
+      } catch (error) {
+        return res.status(400).json({ status: false, message: "Invalid experience data format" });
+      }
   
       // Add images to project details safely
       if (req.files.projectImages) {
@@ -45,6 +52,8 @@ exports.addPortfolio = async (req, res) => {
         profilePhoto,
         resume,
         projects,
+        experience
+
       };
   
       console.log("Final Portfolio Data:", newPortfolio);

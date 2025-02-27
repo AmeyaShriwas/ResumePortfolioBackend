@@ -9,6 +9,15 @@ const ProjectSchema = new mongoose.Schema({
   githubLink: { type: String },
 });
 
+const ExperienceSchema = new mongoose.Schema({
+  training_company: { type: String, required: true },
+  course_job: { type: String, required: true },
+  from: { type: String }, // Store the image URL or file path
+  to: { type: String},
+  description: { type: String },
+
+});
+
 const PortfolioSchema = new mongoose.Schema({
     id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +31,7 @@ const PortfolioSchema = new mongoose.Schema({
   resume: { type: String }, // Store the resume file path or URL
   skills: { type: String, required: true },
   projects: [ProjectSchema], // Array of projects
+  training_Experience: [ExperienceSchema],
   email: { type: String, required: true, unique: true },
   phone: { type: String },
 }, { timestamps: true });
