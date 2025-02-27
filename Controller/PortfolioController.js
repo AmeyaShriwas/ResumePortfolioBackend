@@ -218,6 +218,48 @@ exports.updateSkillsDetails = async (req, res) => {
   }
 };
 
+exports.updateExperienceDetails = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const id = req.userId
+    if(userId !== id){
+      return res.status(401).json({
+        status: false,
+        message: 'Invalid user'
+    });
+    }
+    const data = req.body;
+    const index = data.index; // Project index
+
+    console.log('data', data)
+
+    if (!data || Object.keys(data).length === 0) {
+      return res.status(400).json({ success: false, message: "Empty data provided" });
+    }
+
+    if (index === undefined || index < 0) {
+      return res.status(400).json({ success: false, message: "Invalid project index" });
+    }
+    // Update portfolio using service function
+    const updatedPortfolio = await PortfolioService.updateExperienceDetails(userId, index, data);
+
+    if (!updatedPortfolio) {
+      return res.status(404).json({ success: false, message: "Portfolio not found" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Portfolio updated successfully",
+      data: updatedPortfolio
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+      error: error.message
+    });
+  }
+};
 
 exports.updateProject = async (req, res) => {
   try {

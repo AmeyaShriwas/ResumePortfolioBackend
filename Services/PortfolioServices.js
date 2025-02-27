@@ -105,6 +105,32 @@ exports.updateSkillsDetails = async (userId, data) => {
 };
 
 
+exports.updateExperienceDetails = async (userId, index,  data) => {
+  try {
+    const portfolio = await Portfolio.findOne({ id: userId }); // Use _id if it's MongoDB default
+    if (!portfolio) {
+      throw new Error("Portfolio not found");
+    }
+
+    if (index >= portfolio.training_Experience.length) {
+      throw new Error("Project index out of range");
+    }
+    let experience = portfolio.training_Experience[index];
+
+    experience.training_company = data.training_company || experience.training_company;
+    experience.course_job = data.course_job || experience.course_job;
+    experience.from = data.from || experience.from;
+    experience.to = data.to || experience.to;
+    experience.description = data.description || experience.description;
+
+    await portfolio.save();
+    return portfolio;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
 exports.getAllPortfolios = async () => {
   return await Portfolio.find();
 };
