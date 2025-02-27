@@ -59,7 +59,7 @@ exports.updatePersonalDetails = async (userId, data) => {
 
     // Updating fields safely
     portfolio.name = data.name || portfolio.name;
-    portfolio.bio = data.bio || portfolio.bio;
+    portfolio.tagLine = data.tagLine || portfolio.tagLine;
     portfolio.linkedin = data.linkedin || portfolio.linkedin;
     portfolio.email = data.email || portfolio.email;
 
