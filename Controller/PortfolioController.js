@@ -10,7 +10,7 @@ exports.addPortfolio = async (req, res) => {
       console.log("Files Uploaded:", req.files);
       console.log("Form Data:", req.body);
   
-      const { name, bio, linkedin, email, phone, skills, userId } = req.body;
+      const { name, bio, tagLine, linkedin, email, phone, skills, userId } = req.body;
       const profilePhoto = req.files?.profilePhoto?.[0]?.path || null;
       const resume = req.files?.resume?.[0]?.path || null;
         const decoded = jwt.verify(userId, process.env.JWT_SECRET);
@@ -45,6 +45,7 @@ exports.addPortfolio = async (req, res) => {
       id,
         name,
         bio,
+        tagLine,
         linkedin,
         email,
         phone,

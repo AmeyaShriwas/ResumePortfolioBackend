@@ -27,6 +27,7 @@ const PortfolioSchema = new mongoose.Schema({
   name: { type: String, required: true },
   profilePhoto: { type: String }, // Store the image URL or file path
   bio: { type: String },
+  tagLine: {type: String},
   linkedin: { type: String },
   resume: { type: String }, // Store the resume file path or URL
   skills: { type: String, required: true },
