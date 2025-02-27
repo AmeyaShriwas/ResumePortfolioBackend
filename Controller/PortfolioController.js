@@ -25,9 +25,9 @@ exports.addPortfolio = async (req, res) => {
         return res.status(400).json({ status: false, message: "Invalid projects data format" });
       }
 
-      let experience = []
+      let training_Experience = []
       try {
-        experience = JSON.parse(req.body.training_Experience || "[]");
+        training_Experience = JSON.parse(req.body.training_Experience || "[]");
       } catch (error) {
         return res.status(400).json({ status: false, message: "Invalid experience data format" });
       }
@@ -53,7 +53,7 @@ exports.addPortfolio = async (req, res) => {
         profilePhoto,
         resume,
         projects,
-        experience
+        training_Experience
 
       };
   
