@@ -183,24 +183,21 @@ exports.updateBioDetails = async (req, res) => {
 exports.updateSkillsDetails = async (req, res) => {
   try {
     const userId = req.params.id;
-    const id = req.userId; // Authenticated user ID
-
-    // Convert both IDs to strings before comparing
-    if (userId.toString() !== id.toString()) {
+    const id = req.userId
+    if(userId !== id){
       return res.status(401).json({
         status: false,
-        message: "Unauthorized: Invalid user",
-      });
+        message: 'Invalid user'
+    });
     }
-
     const data = req.body;
-    console.log("data", data);
+    console.log('data', data)
 
     if (!data || Object.keys(data).length === 0) {
       return res.status(400).json({ success: false, message: "Empty data provided" });
     }
 
-    // Call the service function to update the portfolio
+    // Update portfolio using service function
     const updatedPortfolio = await PortfolioService.updateSkillsDetails(userId, data);
 
     if (!updatedPortfolio) {
@@ -210,14 +207,13 @@ exports.updateSkillsDetails = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Portfolio updated successfully",
-      data: updatedPortfolio,
+      data: updatedPortfolio
     });
   } catch (error) {
-    console.error("Error in updateSkillsDetails:", error.message);
     return res.status(500).json({
       status: false,
       message: "Internal Server Error",
-      error: error.message,
+      error: error.message
     });
   }
 };

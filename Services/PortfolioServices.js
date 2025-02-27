@@ -90,21 +90,16 @@ exports.updateBioDetails = async (userId, data) => {
 
 exports.updateSkillsDetails = async (userId, data) => {
   try {
-    // Find portfolio by _id (MongoDB default)
-    const portfolio = await Portfolio.findOne({ _id: userId });
-
+    const portfolio = await Portfolio.findOne({ id: userId }); // Use _id if it's MongoDB default
     if (!portfolio) {
-      return null; // Return null if not found instead of throwing an error
+      throw new Error("Portfolio not found");
     }
 
-    // Update skills field safely
+    // Updating fields safely
     portfolio.skills = data.skills || portfolio.skills;
-
-    // Save the updated portfolio
     await portfolio.save();
     return portfolio;
   } catch (error) {
-    console.error("Error updating skills:", error.message);
     throw new Error(error.message);
   }
 };
