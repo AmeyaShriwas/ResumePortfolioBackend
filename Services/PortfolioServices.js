@@ -158,6 +158,54 @@ exports.updateSkillsDetails = async (userId, data) => {
   }
 };
 
+exports.deleteExperienceDetails = async(userId, index)=> {
+  try{
+    const portfolio = await Portfolio.findOne({ id: userId });
+    if (!portfolio) {
+      throw new Error("Portfolio not found");
+    }
+
+    // Check if projects array exists and index is valid
+    if (!portfolio.projects || index < 0 || index >= portfolio.projects.length) {
+      throw new Error("Invalid experience index");
+    }
+
+    // Remove the project at the given index
+    portfolio.training_Experience.splice(index, 1);
+
+    // Save the updated portfolio
+    await portfolio.save();
+
+    return portfolio;
+  }
+  catch(error){
+    throw new Error(error.message);
+
+  }
+}
+
+exports.addExperienceDetails = async(userId, data)=> {
+  try{
+    const portfolio = await Portfolio.findOne({ id: userId }); // Use _id if it's MongoDB default
+    if (!portfolio) {
+      throw new Error("Portfolio not found");
+    }
+    const newExperience = {
+      training_company:data.training_company,
+    course_job : data.course_job,
+    from : data.from,
+    to : data.to,
+    description : data.description
+    }
+    await portfolio.training_Experience.push(newExperience)
+
+    await portfolio.save();
+    return portfolio;
+  }
+  catch(error){
+    throw new Error(error.message);
+  }
+}
 
 exports.updateExperienceDetails = async (userId, index,  data) => {
   try {

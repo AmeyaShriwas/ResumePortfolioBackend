@@ -218,6 +218,77 @@ exports.updateSkillsDetails = async (req, res) => {
   }
 };
 
+exports.addExperienceDetails = async(req, res)=> {
+  try{
+    const userId = req.params.id;
+    const id = req.userId
+    if(userId !== id){
+      return res.status(401).json({
+        status: false,
+        message: 'Invalid user'
+    });
+    }
+    const data = req.body;
+
+    console.log('data', data)
+
+    if (!data || Object.keys(data).length === 0) {
+      return res.status(400).json({ success: false, message: "Empty data provided" });
+    }
+
+  
+    // Update portfolio using service function
+    const updatedPortfolio = await PortfolioService.addExperienceDetails(userId, data);
+
+    if (!updatedPortfolio) {
+      return res.status(404).json({ success: false, message: "Portfolio not found" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Portfolio updated successfully",
+      data: updatedPortfolio
+    });
+  }
+  catch(error){
+    return res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+      error: error.message
+    });
+  }
+}
+
+exports.deleteExperienceDetails = async(req, res)=> {
+  try{
+    const userId = req.params.id; // Get user ID from params
+    const { index } = req.body; // Get project index from request body
+
+    if (index === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "Project index is required",
+      });
+    }
+
+    const updatedPortfolio = await PortfolioService.deleteExperienceDetails(userId, index);
+
+    return res.status(200).json({
+      success: true,
+      message: "Experience deleted successfully",
+      portfolio: updatedPortfolio,
+    });
+
+  }
+  catch(error){
+    return res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+      error: error.message
+    });
+  }
+}
+
 exports.updateExperienceDetails = async (req, res) => {
   try {
     const userId = req.params.id;
