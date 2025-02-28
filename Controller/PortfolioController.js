@@ -348,10 +348,6 @@ exports.addMoreProjects = async(req, res)=> {
       return res.status(400).json({ success: false, message: "Empty data provided" });
     }
 
-    if (index === undefined || index < 0) {
-      return res.status(400).json({ success: false, message: "Invalid project index" });
-    }
-
     // Handling file uploads
     const projectImageGet = req?.files["projectImage"];
     const projectImage = projectImageGet ? projectImageGet[0].path : null;
