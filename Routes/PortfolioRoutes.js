@@ -27,7 +27,7 @@ router.post("/deleteExperienceDetails/:id", AuthMiddleware, PortfolioController.
 
 router.post("/deleteProject/:id", AuthMiddleware, PortfolioController.deleteProject);
 
-router.post("/addMoreProjects/:id", AuthMiddleware, upload.fields([{name: "projectImages", maxCount: 1}]), PortfolioController.addMoreProjects);
+router.post("/addMoreProjects/:id", AuthMiddleware, upload.fields([{name: "projectImage", maxCount: 1}]), PortfolioController.addMoreProjects);
 
 
 
