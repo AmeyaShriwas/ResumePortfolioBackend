@@ -19,6 +19,60 @@ exports.updatePortfolio = async (userId, profilePhoto) => {
   }
 };
 
+exports.addMoreProjects = async(userId, projectImage, data)=> {
+  try{
+    const portfolio = await Portfolio.findOne({ id: userId });
+    if (!portfolio) {
+      throw new Error("Portfolio not found");
+    }
+
+    const newProject = {
+      projectName: data.projectName,
+      projectDescription: data.projectDescription,
+      projectImage: projectImage,
+      techStack: data.techStack,
+      liveLink: data.liveLink,
+      githubLink: data.githubLink
+    };
+
+    // Push the new project into the projects array
+    portfolio.projects.push(newProject);
+
+    // Save the updated portfolio
+    await portfolio.save();
+
+    return portfolio;
+  }
+  catch(error){
+    throw new Error(error.message);
+  }
+}
+
+exports.deleteProject = async (userId, index) => {
+  try {
+    const portfolio = await Portfolio.findOne({ id: userId });
+    if (!portfolio) {
+      throw new Error("Portfolio not found");
+    }
+
+    // Check if projects array exists and index is valid
+    if (!portfolio.projects || index < 0 || index >= portfolio.projects.length) {
+      throw new Error("Invalid project index");
+    }
+
+    // Remove the project at the given index
+    portfolio.projects.splice(index, 1);
+
+    // Save the updated portfolio
+    await portfolio.save();
+
+    return portfolio;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
 exports.updateProjectsDetails = async (userId, index, projectImage, data) => {
   try {
    

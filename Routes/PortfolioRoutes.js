@@ -22,6 +22,10 @@ router.post("/updatePersonalDetails/:id", AuthMiddleware, PortfolioController.up
 router.post("/updateBioDetails/:id", AuthMiddleware, PortfolioController.updateBioDetails);
 router.post("/updateSkillsDetails/:id", AuthMiddleware, PortfolioController.updateSkillsDetails);
 router.post("/updateExperienceDetails/:id", AuthMiddleware, PortfolioController.updateExperienceDetails);
+router.post("/deleteProject/:id", AuthMiddleware, PortfolioController.deleteProject);
+
+router.post("/addMoreProjects/:id", AuthMiddleware, upload.fields([{name: "projectImages", maxCount: 1}]), PortfolioController.addMoreProjects);
+
 
 
 

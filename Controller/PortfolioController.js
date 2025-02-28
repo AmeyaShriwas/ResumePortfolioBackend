@@ -261,6 +261,81 @@ exports.updateExperienceDetails = async (req, res) => {
   }
 };
 
+exports.addMoreProjects = async(req, res)=> {
+  try{
+    const userId = req.params.id;
+    const id = req.userId
+    if(userId !== id){
+      return res.status(401).json({
+        status: false,
+        message: 'Invalid user'
+    });
+    }
+    const data = req.body;
+
+    if (!data || Object.keys(data).length === 0) {
+      return res.status(400).json({ success: false, message: "Empty data provided" });
+    }
+
+    if (index === undefined || index < 0) {
+      return res.status(400).json({ success: false, message: "Invalid project index" });
+    }
+
+    // Handling file uploads
+    const projectImageGet = req?.files["projectImage"];
+    const projectImage = projectImageGet ? projectImageGet[0].path : null;
+
+    // Update project
+    const updatedPortfolio = await PortfolioService.addMoreProjects(userId, projectImage, data);
+
+    if (!updatedPortfolio) {
+      return res.status(404).json({ success: false, message: "Portfolio not found" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Project updated successfully",
+      data: updatedPortfolio
+    });
+  }
+  catch(error){
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Erroyr",
+      error: error.message
+    });
+  }
+}
+
+exports.deleteProject = async (req, res) => {
+  try {
+    const userId = req.params.id; // Get user ID from params
+    const { index } = req.body; // Get project index from request body
+
+    if (index === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "Project index is required",
+      });
+    }
+
+    const updatedPortfolio = await PortfolioService.deleteProject(userId, index);
+
+    return res.status(200).json({
+      success: true,
+      message: "Project deleted successfully",
+      portfolio: updatedPortfolio,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+
+
 exports.updateProject = async (req, res) => {
   try {
     const userId = req.params.id;
