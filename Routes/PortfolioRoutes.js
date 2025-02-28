@@ -18,6 +18,10 @@ router.post(
     { name: "profilePhoto", maxCount: 1 }
 ]), PortfolioController.updatePortfolioPhoto);
 
+router.post("/updateResume/:id", AuthMiddleware, upload.fields([
+  { name: "resume", maxCount: 1 }
+]), PortfolioController.updateResume);
+
 router.post("/updatePersonalDetails/:id", AuthMiddleware, PortfolioController.updatePersonalDetails);
 router.post("/updateBioDetails/:id", AuthMiddleware, PortfolioController.updateBioDetails);
 router.post("/updateSkillsDetails/:id", AuthMiddleware, PortfolioController.updateSkillsDetails);

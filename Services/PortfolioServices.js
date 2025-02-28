@@ -19,6 +19,21 @@ exports.updatePortfolio = async (userId, profilePhoto) => {
   }
 };
 
+exports.updateResume = async(userId,profilePhoto) => {
+  try {
+      const portfolio = await Portfolio.findOne({ id: userId }); // Use findOne instead of find
+      if (!portfolio) {
+          throw new Error("Portfolio not found");
+      }
+
+      if (profilePhoto) portfolio.resume = profilePhoto;
+      await portfolio.save();
+      return portfolio;
+  } catch (error) {
+      throw new Error(error.message);
+  }
+};
+
 exports.addMoreProjects = async(userId, projectImage, data)=> {
   try{
     const portfolio = await Portfolio.findOne({ id: userId });

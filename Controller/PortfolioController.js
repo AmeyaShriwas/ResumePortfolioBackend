@@ -103,6 +103,41 @@ exports.addPortfolio = async (req, res) => {
     }
 };
 
+exports.updateResume = async(req, res)=> {
+  try{
+    const userId = req.params.id;
+    const id = req.userId
+    if(userId !== id){
+      return res.status(401).json({
+        status: false,
+        message: 'Invalid user'
+    });
+    }
+
+    // Handling file uploads
+    const profilePhotoGet = req.files["resume"]
+    if(!profilePhotoGet){
+      return {status: false, message: 'Empty file'}
+    }
+    const profilePhoto = profilePhotoGet ? profilePhotoGet[0].path : null;
+   
+    // Update portfolio using service function
+    const updatedPortfolio = await PortfolioService.updateResume(userId,profilePhoto);
+
+    return res.status(200).json({
+        success: true,
+        message: "Portfolio updated successfully",
+        data: updatedPortfolio
+    });
+  }
+  catch(error){
+    return res.status(500).json({
+      status: false,
+      message: error.message
+  });
+  }
+}
+
 exports.updatePersonalDetails = async (req, res) => {
   try {
     const userId = req.params.id;
