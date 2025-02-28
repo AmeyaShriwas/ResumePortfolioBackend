@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname); // Fixed syntax
+    cb(null, Date.now() + "-" + file.originalname); // Unique filename
   },
 });
 
@@ -24,10 +24,15 @@ const fileFilter = (req, file, cb) => {
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Invalid file type"), false);
+    cb(new Error("Invalid file type. Only JPEG, PNG, and PDF are allowed."), false);
   }
 };
 
-const upload = multer({ storage, fileFilter });
+// Multer upload configuration with a 20MB file size limit
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+});
 
 module.exports = upload;
