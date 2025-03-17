@@ -15,7 +15,7 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 
-app.use(cors({ origin: true })); // Allows requests from any domain
+app.use(cors()); // Allows requests from any domain
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
